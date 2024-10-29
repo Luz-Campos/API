@@ -86,23 +86,7 @@
                                 <a href="productos.php" class="dropdown-item">Productos</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown dropright">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dresses <i class="fa fa-angle-right float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
-                                <a href="" class="dropdown-item">Men's Dresses</a>
-                                <a href="" class="dropdown-item">Women's Dresses</a>
-                                <a href="" class="dropdown-item">Baby's Dresses</a>
-                            </div>
-                        </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                        <!-- Other categories -->
                     </div>
                 </nav>
             </div>
@@ -151,95 +135,105 @@
             <div class="col-lg-12 table-responsive mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">CREAR NUEVO CLIENTE</span></h5>
                 <div class="bg-light p-30 mb-5">
-    <form action="crear_usuarios.php" method="POST">
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <label>Nombre del cliente</label>
-                <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
-            </div>
-            <div class="col-md-6 form-group">
-                <label>Apellidos del cliente</label>
-                <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
+                    <form action="crear_usuarios.php" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Nombre del cliente</label>
+                                <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Apellidos del cliente</label>
+                                <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Contraseña</label>
+                                <input class="form-control" type="password" name="contraseña" placeholder="Contraseña" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Activo</label>
+                            <input type="checkbox" name="activo" checked>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Guardar Cliente</button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <label>Email</label>
-                <input class="form-control" type="email" name="email" placeholder="Email" required>
-            </div>
-            <div class="col-md-6 form-group">
-                <label>Contraseña</label>
-                <input class="form-control" type="password" name="contraseña" placeholder="Contraseña" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Activo</label>
-            <input type="checkbox" name="activo" checked>
-        </div>
-        <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Guardar Cliente</button>
-    </form>
-</div>
-            </div>
-        </div>
+
         <div class="row px-xl-5">
             <div class="col-lg-12 table-responsive mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">LISTA DE CLIENTES</span></h5>
-                <table class="table table-light table-borderless table-hover text-center mb-0">
+                <table class="table table-bordered table-hover text-center mb-0">
                     <thead class="thead-dark">
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Email</th>
-                            <th>Acciones</th>
+                            <th>Activo</th>
                         </tr>
                     </thead>
-                    <tbody id="customerTableBody">
+                    <tbody>
+                    <?php
+$baseUrl = 'http://localhost:8080/api/customers';
+$wsKey = '7WRJ5IIDEL9SPJHS3F7USYACD1BQ8B8D';
+
+// Función para hacer la solicitud a la API
+function apiRequest($url) {
+    $response = file_get_contents($url);
+    
+    if ($response === false) {
+        echo "Error en la solicitud a la API: " . print_r($http_response_header, true) . "\n";
+        return null;
+    }
+
+    return $response;
+}
+
+// Función para obtener detalles de un cliente específico
+function getCustomerDetails($id, $baseUrl, $wsKey) {
+    $url = "$baseUrl/$id?ws_key=$wsKey&output_format=JSON";
+    $jsonResponse = apiRequest($url);
+
+    return json_decode($jsonResponse, true);
+}
+
+// Función para listar todos los clientes
+function listCustomers($baseUrl, $wsKey) {
+    for ($clienteId = 1; $clienteId <= 100; $clienteId++) {
+        $customerDetails = getCustomerDetails($clienteId, $baseUrl, $wsKey);
+        
+        if ($customerDetails && isset($customerDetails['customer'])) {
+            $id = $customerDetails['customer']['id'];
+            $firstname = $customerDetails['customer']['firstname'];
+            $lastname = $customerDetails['customer']['lastname'];
+            $email = $customerDetails['customer']['email'];
+            $active = $customerDetails['customer']['active'];
+
+            echo "<tr>";
+            echo "<td>$id</td>";
+            echo "<td>" . htmlspecialchars(trim($firstname . ' ' . $lastname)) . "</td>";
+            echo "<td>" . htmlspecialchars($email) . "</td>";
+            echo "<td>" . ($active == '1' ? 'Sí' : 'No') . "</td>";
+            echo "</tr>";
+        } else {
+            // Opcional: imprimir un mensaje para clientes no encontrados
+            // echo "<tr><td colspan='4'>Cliente ID $clienteId no encontrado.</td></tr>";
+        }
+    }
+}
+?>
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    
-    <script>
-        async function listCustomers() {
-            try {
-                const response = await fetch('http://localhost:8080/api/customers', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer 7WRJ5IIDEL9SPJHS3F7USYACD1BQ8B8D',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Error al obtener la lista de clientes');
-                }
-
-                const customers = await response.json();
-                const tableBody = document.getElementById('customerTableBody');
-                tableBody.innerHTML = '';
-
-                customers.forEach(customer => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${customer.id}</td>
-                        <td>${customer.name}</td>
-                        <td>${customer.email}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">Editar</button>
-                            <button class="btn btn-danger btn-sm">Eliminar</button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        // Llama a la función al cargar la página
-        window.onload = listCustomers;
-    </script>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
@@ -311,18 +305,13 @@
         </div>
     </div>
     <!-- Footer End -->
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-    <!-- JavaScript Libraries -->
+    <!-- Libraries JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
 
-    <!-- Contact Javascript File -->
+    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 
