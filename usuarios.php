@@ -151,22 +151,34 @@
             <div class="col-lg-12 table-responsive mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">CREAR NUEVO CLIENTE</span></h5>
                 <div class="bg-light p-30 mb-5">
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Nombre del cliente</label>
-                            <input class="form-control" type="text" placeholder="Mesa">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Precio</label>
-                            <input class="form-control" type="text" placeholder="00">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Descripcion</label>
-                        <textarea class="form-control" rows="5" placeholder="Escribe aqui la descripción"></textarea>
-                    </div>
-                    <button class="btn btn-block btn-primary font-weight-bold py-3">Guardar Cliente</button>
-                </div>
+    <form action="crear_usuarios.php" method="POST">
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Nombre del cliente</label>
+                <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Apellidos del cliente</label>
+                <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Email</label>
+                <input class="form-control" type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Contraseña</label>
+                <input class="form-control" type="password" name="contraseña" placeholder="Contraseña" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Activo</label>
+            <input type="checkbox" name="activo" checked>
+        </div>
+        <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Guardar Cliente</button>
+    </form>
+</div>
             </div>
         </div>
         <div class="row px-xl-5">

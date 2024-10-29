@@ -152,37 +152,38 @@
             <div class="col-lg-12 table-responsive mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">CREAR NUEVO PRODUCTO</span></h5>
                 <div class="bg-light p-30 mb-5">
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Nombre del producto</label>
-                            <input class="form-control" type="text" placeholder="Mesa">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Precio</label>
-                            <input class="form-control" type="text" placeholder="00">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Cantidad</label>
-                            <input class="form-control" type="text" placeholder="1">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Referencia</label>
-                            <input class="form-control" type="text" placeholder="demo_20">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ID de la categoria</label>
-                            <input class="form-control" type="text" placeholder="1">
-                        </div>
-                        <div class="col-md-12">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="shipto">
-                                <label class="custom-control-label" for="shipto"  data-toggle="collapse" data-target="#shipping-address">Activo</label>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <button class="btn btn-block btn-primary font-weight-bold py-3">Crear Producto</button>
-                </div>              
+                <form action="crear_producto.php" method="POST">
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label>Nombre del producto</label>
+            <input class="form-control" type="text" name="name" placeholder="Mesa" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Precio</label>
+            <input class="form-control" type="text" name="price" placeholder="00" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Cantidad</label>
+            <input class="form-control" type="number" name="quantity" placeholder="1" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Referencia</label>
+            <input class="form-control" type="text" name="reference" placeholder="demo_20" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>ID de la categoria</label>
+            <input class="form-control" type="number" name="category_id" placeholder="1" required>
+        </div>
+        <div class="col-md-12">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="shipto" name="active">
+                <label class="custom-control-label" for="shipto">Activo</label>
+            </div>
+        </div>
+    </div>
+    <br>
+    <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Crear Producto</button>
+</form>            
             </div>
         </div>
     </div>
