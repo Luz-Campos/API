@@ -222,8 +222,6 @@ function listCustomers($baseUrl, $wsKey) {
             echo "<td>" . ($active == '1' ? 'Sí' : 'No') . "</td>";
             echo "</tr>";
         } else {
-            // Opcional: imprimir un mensaje para clientes no encontrados
-            // echo "<tr><td colspan='4'>Cliente ID $clienteId no encontrado.</td></tr>";
         }
     }
 }
